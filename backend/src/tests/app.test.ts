@@ -1,11 +1,11 @@
 import request from 'supertest';
-import { app } from '../index';
-import { Request, Response, NextFunction } from 'express'; // Import the necessary types
+import { createApp } from '../app';
 
 describe('GET /', () => {
-    it('responds with Hello World!', async () => {
-        const response = await request(app).get('/');
-        expect(response.statusCode).toBe(200);
-        expect(response.text).toBe('Hello World!');
-    });
+  it('responds with welcome message', async () => {
+    const app = createApp();
+    const response = await request(app).get('/');
+    expect(response.statusCode).toBe(200);
+    expect(response.text).toBe('Welcome to LTI API');
+  });
 });

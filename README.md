@@ -27,9 +27,18 @@ The frontend is a React application, and its main files are located in the `src`
 
 ### Backend
 
-El backend es una aplicación Express escrita en TypeScript.
-- The `src` directory contains the source code
-- The `prisma` directory contains the Prisma schema.
+The backend is an Express application written in TypeScript.
+- The `src` directory contains the source code (`app.ts` wires routes; `index.ts` starts the HTTP server).
+- The `prisma` directory contains the Prisma schema and migrations.
+
+#### Recruiter candidate intake API (backend)
+
+- **Create candidate**: `POST http://localhost:3010/api/candidates` with `multipart/form-data` (required fields `firstName`, `lastName`, `email`; optional `phone`, `address`, `education`, `workExperience`; optional file field `cvFile` as `.pdf` or `.docx`).
+- **Download CV**: `GET http://localhost:3010/api/candidates/{id}/cv` when a CV was uploaded.
+- **Authentication (MVP)**: send headers `x-user-id` (must match an existing row in the `User` table) and `x-user-role: recruiter`.
+- **Useful environment variables**: `DATABASE_URL`, `CV_STORAGE_PATH` (defaults under `uploads/cv`), `CV_MAX_SIZE_MB` (default `5`), `APP_BASE_URL` (used to build the CV URL in JSON responses), optional `CV_MAX_UPLOAD_BYTES` for hard byte limits.
+
+Apply database changes with `npx prisma migrate deploy` (or `prisma migrate dev` locally) after pulling migrations.
 
 ## First steps
 
