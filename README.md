@@ -25,6 +25,11 @@ The project is divided into two main directories: `frontend` and `backend`.
 
 The frontend is a React application, and its main files are located in the `src` directory. The `public` directory contains static assets, and the build directory contains the production `build` of the application.
 
+**Recruiter UI (candidate intake)**  
+- Dashboard at `/` with an **Add Candidate** action.  
+- Candidate form at `/candidates/new` (multipart submit to the backend).  
+- Optional Create React App env vars (defaults shown): `REACT_APP_API_URL` (`http://localhost:3010`), `REACT_APP_RECRUITER_USER_ID` (`1` — must exist in the `User` table), `REACT_APP_CV_MAX_SIZE_MB` (`5`), optional `REACT_APP_CV_MAX_UPLOAD_BYTES` for client-side file size checks.
+
 ### Backend
 
 The backend is an Express application written in TypeScript.
