@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCandidateCv = exports.postCandidate = void 0;
 var fs_1 = __importDefault(require("fs"));
 var candidateService_1 = require("../../application/services/candidateService");
+var NotFoundError_1 = require("../../application/errors/NotFoundError");
 function postCandidate(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         var body, result, err_1;
@@ -67,18 +68,27 @@ function postCandidate(req, res, next) {
 exports.postCandidate = postCandidate;
 function getCandidateCv(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
-        var id, descriptor, stream, err_2;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var id, descriptor, _a, stream, err_2;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    _a.trys.push([0, 3, , 4]);
+                    _b.trys.push([0, 6, , 7]);
                     id = req.params.id;
                     return [4 /*yield*/, (0, candidateService_1.getCvDownloadDescriptor)(id)];
                 case 1:
-                    descriptor = _a.sent();
-                    return [4 /*yield*/, fs_1.default.promises.access(descriptor.absolutePath, fs_1.default.constants.R_OK)];
+                    descriptor = _b.sent();
+                    _b.label = 2;
                 case 2:
-                    _a.sent();
+                    _b.trys.push([2, 4, , 5]);
+                    return [4 /*yield*/, fs_1.default.promises.access(descriptor.absolutePath, fs_1.default.constants.R_OK)];
+                case 3:
+                    _b.sent();
+                    return [3 /*break*/, 5];
+                case 4:
+                    _a = _b.sent();
+                    next(new NotFoundError_1.NotFoundError('File could not be read.'));
+                    return [2 /*return*/];
+                case 5:
                     res.setHeader('Content-Type', descriptor.mimeType);
                     res.setHeader('Content-Disposition', "attachment; filename*=UTF-8''".concat(encodeURIComponent(descriptor.fileName)));
                     stream = fs_1.default.createReadStream(descriptor.absolutePath);
@@ -91,12 +101,12 @@ function getCandidateCv(req, res, next) {
                         }
                     });
                     stream.pipe(res);
-                    return [3 /*break*/, 4];
-                case 3:
-                    err_2 = _a.sent();
+                    return [3 /*break*/, 7];
+                case 6:
+                    err_2 = _b.sent();
                     next(err_2);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [3 /*break*/, 7];
+                case 7: return [2 /*return*/];
             }
         });
     });

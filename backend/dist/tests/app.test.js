@@ -58,3 +58,24 @@ describe('GET /', function () {
         });
     }); });
 });
+describe('CORS', function () {
+    it('responds to preflight for API routes with allow-origin', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var app, response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    app = (0, app_1.createApp)();
+                    return [4 /*yield*/, (0, supertest_1.default)(app)
+                            .options('/api/candidates')
+                            .set('Origin', 'http://localhost:3000')
+                            .set('Access-Control-Request-Method', 'POST')
+                            .set('Access-Control-Request-Headers', 'authorization, content-type')];
+                case 1:
+                    response = _a.sent();
+                    expect(response.statusCode).toBe(204);
+                    expect(response.headers['access-control-allow-origin']).toBe('http://localhost:3000');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
